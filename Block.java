@@ -10,6 +10,7 @@ public class Block {
     private int intNonce;
     private String previousHash, hash;
     private int difficulty = 5;
+    private int numTries = 0;
 
     //Constructor for blocks from file
     public Block(int index, Timestamp timestamp, Transaction transaction, String nonce, String hash){
@@ -29,6 +30,10 @@ public class Block {
         this.hash = calculateHash();
     }
 
+    public Timestamp getTimestamp(){
+        return timestamp;
+    }
+
     public int getIndex(){
         return index;
     }
@@ -39,6 +44,10 @@ public class Block {
 
     public String getHash(){
         return hash;
+    }
+
+    public String getNonce(){
+        return nonce;
     }
 
     public Transaction getTransaction() {
@@ -66,9 +75,11 @@ public class Block {
         String key = new String(new char[difficulty]).replace('\0', '0');
         while(!hash.substring( 0, difficulty).equals(key)) {
             intNonce++;
+            numTries++;
             hash = calculateHash();
         }
         System.out.println("Block mined! : " + hash);
+        System.out.println("Number of tries to find the nonce: " + numTries);
     }
 
     public String toString(){
